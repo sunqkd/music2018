@@ -1,18 +1,24 @@
 <template>
 	<div id="app">
-		<router-view/>
+		<MHeader></MHeader>
+		<!-- 路由显示区域 -->
+		<tab></tab>
+		<router-view></router-view>
 	</div>
 </template>
 
 <script>
-export default {
-  	name: 'App'
-}
+	import MHeader from './components/m-header/m-header.vue';
+    import tab from 'components/tab/tab.vue'
+	export default {
+		name: 'App',
+		components:{
+			'MHeader':MHeader,
+			'tab':tab
+		}
+	}
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
-	@import "./common/stylus/variable.styl"
-
-	#app
-		color:$color-theme
+	
 </style>
