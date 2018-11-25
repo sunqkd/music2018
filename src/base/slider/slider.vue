@@ -5,7 +5,7 @@
             <slot></slot>
         </div>
         <div class="dots">
-
+			<span class="dot" v-for="(item,index) in dots" :key="index" :class="{'active': currentPageIndex == index}"></span>
         </div>
     </div>
 </template>
@@ -15,7 +15,8 @@ import { addClass } from 'common/js/dom.js'
 export default {
     data(){
         return{
-			// children:''
+			dots:[],
+			currentPageIndex: 0 //默认是第零页
         }
 	},
 	props:{
@@ -35,11 +36,36 @@ export default {
 	mounted(){ // 初始化slide
 		setTimeout(() => {
 			this._setSlideWidth();
+			this._initDots();
 			this._initSlide();
+
+			// 自动播放功能
+			if(this.autoPlay){
+				this._play() // 自动播放方法
+			}
+
 		},20)
+
+		window.addEventListener('resize',()=>{
+			if(!this.slider){
+				return;
+			}else{
+				this._setSlideWidth(true);  // 重新计算宽度
+				this.slider.refresh(); // 刷新
+			}
+		})
 	},
 	methods:{
-		_setSlideWidth(){ // 设置横向宽度
+		_initDots(){
+			this.dots = new Array(this.children.length);
+		},
+		_play(){ // 自动播放方法
+		    clearTimeout(this.timer);
+        	this.timer = setTimeout(() => {
+				this.slider.next()
+			}, this.interval)
+		},
+		_setSlideWidth(isResize){ // 设置横向宽度
 			this.children = this.$refs.sliderGroup.children;
 			// console.log(this.children);
 			let width = 0;
@@ -52,13 +78,32 @@ export default {
 			    width+=slideWidth;
 			}
 
-		    if( this.loop){
+		    if(this.loop && !isResize){
 				width += 2*slideWidth;
 			}
 			this.$refs.sliderGroup.style.width = width + 'px'
 		},
 		_initSlide(){ // 初始化slide
+			this.slider = new BScroll(this.$refs.slider,{
+				scrollX:true, // x 方向可以滚动
+				scrollY:false,// y 方向禁止滚动
+				momentum:false, // 惯性
+				snap: {
+					loop: this.loop, // 无缝滚动
+					threshold: 0.3,
+					speed: 400
+				}
+			}),
 
+			this.slider.on('scrollEnd', ()=>{
+				let pageIndex = this.slider.getCurrentPage().pageX;  // 第几个子元素
+				this.currentPageIndex = pageIndex;
+
+				if(this.autoPlay){
+					clearTimeout(this.timer);
+					this._play();
+				}
+			})
 		}
 	}
 
