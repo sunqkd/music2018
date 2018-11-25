@@ -2,6 +2,7 @@
 	<div id="app">
 		<MHeader></MHeader>
 		<!-- 路由显示区域 -->
+		<!-- tab切换 -->
 		<tab></tab>
 		<router-view></router-view>
 	</div>
