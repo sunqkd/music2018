@@ -62,7 +62,7 @@ export default {
 		_play(){ // 自动播放方法
 		    clearTimeout(this.timer);
         	this.timer = setTimeout(() => {
-				this.slider.next()
+				this.slider.next();
 			}, this.interval)
 		},
 		_setSlideWidth(isResize){ // 设置横向宽度
@@ -78,7 +78,7 @@ export default {
 			    width+=slideWidth;
 			}
 
-		    if(this.loop && !isResize){
+		    if(this.loop && !isResize){ // 循环滚动宽度加上两个宽度  重新计算屏幕不需要重新计算宽度
 				width += 2*slideWidth;
 			}
 			this.$refs.sliderGroup.style.width = width + 'px'
