@@ -14,7 +14,17 @@
             </div>
             <div class="recommend-list">
                 <h1 class="list-title">热门歌单推荐</h1>
-                <ul></ul>
+                <ul>
+                    <li v-for="(item,index) in discList" :key="index" class="item">
+                        <div class="icon">
+                            <img width="60" height="60" :src="item.imgurl" alt="">
+                        </div>
+                        <div class="text">
+                            <h2 class="name" v-html="item.creator.name"></h2>
+                            <p class="desc" v-html="item.dissname"></p>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
@@ -27,7 +37,8 @@ import Slider from "@/base/slider/slider";
 export default {
     data(){
         return {
-            recommends:[] // 轮播数据
+            recommends:[], // 轮播数据
+            discList:[], // 歌单数据
         }
     },
     created(){
@@ -45,7 +56,7 @@ export default {
         },
         _getDiscList(){
             getDiscList().then((res)=>{
-                console.log(res);
+                this.discList = res.data.list;
             })
         }
     },
