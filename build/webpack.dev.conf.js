@@ -10,6 +10,15 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
 
+var axios = require('axios');
+// 模拟后台数据
+const express = require('express');
+const app = express();//请求server
+var router = express.Router();
+app.use('/api',router);
+
+
+
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
 
@@ -42,6 +51,23 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     quiet: true, // necessary for FriendlyErrorsPlugin
     watchOptions: {
       poll: config.dev.poll,
+    },
+    before(app){
+      app.get('/api/getDiscList',(req,res,next)=>{
+        // console.log(req.query);
+        var url = 'https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg';
+        axios.get(url,{
+          headers:{ // 配置请求头
+            referer:'https://c.y.qq.com/',
+            host:'c.y.qq.com'
+          },
+          params:req.query
+        }).then((response) => {
+          res.json(response.data)
+        }).catch((err)=>{
+          res.json(err)
+        })
+      })
     }
   },
   plugins: [

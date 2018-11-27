@@ -4,7 +4,10 @@
 		<!-- 路由显示区域 -->
 		<!-- tab切换 -->
 		<tab></tab>
-		<router-view></router-view>
+		<keep-alive>
+			<router-view></router-view>
+		</keep-alive>
+
 	</div>
 </template>
 

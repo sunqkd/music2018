@@ -105,6 +105,9 @@ export default {
 				}
 			})
 		}
+	},
+	destroyed(){ // 清除定时器
+		clearTimeout(this.timer);
 	}
 
 }
