@@ -5,6 +5,11 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
+import LazyLoad from 'vue-lazyload'
+Vue.use(LazyLoad,{
+	loading:require("@/common/image/default.png")
+})
+
 Vue.config.productionTip = false
 import './common/stylus/index.styl'; // 引入样式
 
