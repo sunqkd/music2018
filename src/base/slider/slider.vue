@@ -5,7 +5,7 @@
             <slot></slot>
         </div>
         <div class="dots">
-			<span class="dot" v-for="(item,index) in dots" :key="index" :class="{'active': currentPageIndex == index}"></span>
+			<span class="dot" v-for="(item,index) in dots" :key="index" :class="{'active': currentPageIndex == index}" @click="dotscli(index)"></span>
         </div>
     </div>
 </template>
@@ -34,6 +34,7 @@ export default {
 		}
 	},
 	mounted(){ // 初始化slide
+	
 		setTimeout(() => {
 			this._setSlideWidth();
 			this._initDots();
@@ -58,6 +59,12 @@ export default {
 	methods:{
 		_initDots(){
 			this.dots = new Array(this.children.length);
+		},
+		dotscli(index){
+			// console.log(index)
+			// console.log(this.children);
+			let el = this.children[index];
+			this.slider.scrollToElement(el,300);
 		},
 		_play(){ // 自动播放方法
 		    clearTimeout(this.timer);

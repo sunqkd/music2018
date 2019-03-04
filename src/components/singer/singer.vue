@@ -1,11 +1,10 @@
 <template>
-    <ul v-if="newsinger.length==27">
-        <li v-for="(item,index) in newsinger" :key="index">
-            {{item.title}}
-        </li>
-    </ul>
+    <div class="singer" ref="singer">
+        <listview :data="newsinger" v-if="newsinger.length == 27"></listview>
+    </div>
 </template>
 <script>
+import listview from '@/base/listview/listview';
 import {getSingerList} from '@/api/singer';
 import {ERR_OK} from '@/api/config.js';
 const  HOT_NAME = "热门";
@@ -15,7 +14,7 @@ export default {
         return{
             singers:[],
             alphabet:['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'],
-            newsinger:[]
+            newsinger:[] // 渲染界面
         }
     },
     created(){
@@ -28,7 +27,7 @@ export default {
     },
     watch:{
         singers(maps){
-          this.newsinger = this.ArraySort(maps);
+            this.newsinger = this.ArraySort(maps);
         }
     },
     methods:{
@@ -62,7 +61,7 @@ export default {
                     itemlist.push({
                         id:item.singer_id,
                         name:item.singer_name,
-                        avatar:flag?" ":`https://y.gtimg.cn/music/photo_new/T001R150x150M000${item.singer_mid}.jpg?max_age=2592000`
+                        avatar: flag ? '' : `https://y.gtimg.cn/music/photo_new/T001R150x150M000${item.singer_mid}.jpg?max_age=2592000`
                     })
                 }
             });
@@ -92,9 +91,16 @@ export default {
             return hot.concat(ret);
         }
         
+    },
+    components:{
+        listview
     }
 }
 </script>
-<style>
-
+<style scoped lang="stylus" rel="stylesheet/stylus">
+    .singer
+        position: fixed
+        top: 88px
+        bottom: 0
+        width: 100%
 </style>

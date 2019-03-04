@@ -60,6 +60,14 @@ export default {
         refresh(){
             // 代理better-scroll的refresh方法
             this.scroll && this.scroll.refresh();
+        },
+        scrollTo(){
+            // 移动到
+            this.scroll && this.scroll.scrollTo.apply(this.scroll,arguments)
+        },
+        scrollToElement(){
+            // 移动到某个节点
+            this.scroll && this.scroll.scrollToElement.apply(this.scroll,arguments) // arguments 是参数 在this.scroll环境下
         }
     },
     watch:{ 
