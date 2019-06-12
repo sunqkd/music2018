@@ -1,7 +1,7 @@
 <template>
     <div>
         搜索界面
-        <pagination :btn-click="listen"></pagination>
+        <!-- <pagination :btn-click="listen"></pagination> -->
     </div>
 </template>
 <script>
@@ -17,9 +17,9 @@ export default {
         pagination
     },
     methods:{
-       listen(data){
-           console.log(data)
-       }
+        listen(data){
+            console.log(data)
+        }
     }
 }
 </script>
